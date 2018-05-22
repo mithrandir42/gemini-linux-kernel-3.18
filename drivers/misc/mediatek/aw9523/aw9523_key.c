@@ -259,6 +259,7 @@ int forceCycles = 0;
 
 int discardKeys[100];
 int discardKeyIdx = 0;
+int fnKeyPressed = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GPIO Control
@@ -442,6 +443,11 @@ static void aw9523_key_eint_work(struct work_struct *work)
 						 1); // The one records a press
 				input_sync(aw9523_key->input_dev);
 				forceCycles = 100;
+
+				if (press_codes[t] == 125) {
+					fnKeyPressed = 1;
+				}
+
 			} else {
 				if (discardKeyIdx < 99) {
 					AW9523_LOG("Putting key press %d in discardKeys %d\n",
@@ -484,6 +490,10 @@ static void aw9523_key_eint_work(struct work_struct *work)
 								 release_codes[t],
 								 0); // Report the release.
 						input_sync(aw9523_key->input_dev);
+
+						if (release_codes[t] == 125) {
+							fnKeyPressed = 0;
+						}
 				}
 			}
 		}
@@ -960,6 +970,7 @@ static void aw9523_i2c_early_suspend(struct i2c_client *client)
 {
 	struct aw9523_key_data *aw9523_key = i2c_get_clientdata(client);
 
+	fnKeyPressed = 1;
 	disable_irq_nosync(aw9523_key->irq);
 
 	pinctrl_select_state(aw9523_pin, shdn_low);
@@ -980,6 +991,7 @@ static void aw9523_i2c_early_resume(struct i2c_client *client)
 	AW9523_LOG("%s enter\n", __func__);
 	enable_irq(aw9523_key->irq);
 
+	fnKeyPressed = 0;
 	aw9523_hw_reset();
 	aw9523_init_keycfg();
 	//INIT_DELAYED_WORK(&aw9523_key->work, aw9523_int_work);
