@@ -5,8 +5,9 @@
 #export DH_VERBOSE=1
 
 # keep lintian happy:
-build: build-arch
+build: build-arch build-indep
 build-arch: build-stamp
+build-indep:
 
 build-stamp:
 	(cd ..; mkdir KERNEL_OUT)
@@ -31,10 +32,6 @@ clean: checkdir
 	(cd ..; rm -rf aarch64-linux-android-4.9)
 	(cd ..; rm -rf mkbootimg)
 
-# nothing to do
-
-# Below here is fairly generic really
-
 binary-arch:
 	-rm -rf debian/tmp
 	install -p -d -o root -g root -m 755 debian/tmp
@@ -47,7 +44,9 @@ binary-arch:
 #	chmod -R go=rX debian/tmp
 	dpkg --build debian/tmp ..
 
-binary:         binary-arch
+binary-indep:
+
+binary:         binary-arch binary-indep
 
 checkdir:
 	@test -f debian/rules
@@ -55,4 +54,4 @@ checkdir:
 checkroot: checkdir
 	@test 0 = `id -u` || { echo "Error: not super-user"; exit 1; }
 
-.PHONY: binary binary-arch clean checkroot checkdir build build-arch
+.PHONY: binary binary-arch binary-indep clean checkroot checkdir build build-arch build-indep
