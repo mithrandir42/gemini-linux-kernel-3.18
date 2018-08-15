@@ -1,0 +1,58 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# keep lintian happy:
+build: build-arch
+build-arch: build-stamp
+
+build-stamp:
+	(cd ..; mkdir KERNEL_OUT)
+	@echo downloading gcc
+	(cd ..; git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b nougat-release --depth 1)
+	@echo configuring
+	(cd ..; make O=../KERNEL_OUT -C gemini-linux-kernel-3.18 ARCH=arm64 aeon6797_6m_n_halium_defconfig)
+	@echo building kernel
+	(cd ..; make O=../KERNEL_OUT -C gemini-linux-kernel-3.18 ARCH=arm64 CROSS_COMPILE=../aarch64-linux-android-4.9/bin/aarch64-linux-android-)
+	@echo mkbootimg
+	(cd ..; git clone https://github.com/osm0sis/mkbootimg.git)
+	@echo building mkbootimg
+	(cd ..; make -C mkbootimg)
+	@echo get ramdisk
+	(cd ..; curl -O https://gemian.thinkglobally.org/ramdisk.cpio.gz)
+	@echo mkbootimg
+	(cd ..; mkbootimg/mkbootimg --kernel KERNEL_OUT/arch/arm64/boot/Image.gz-dtb --ramdisk ramdisk.cpio.gz --base 0x40080000 --second_offset 0x00e80000 --cmdline "bootopt=64S3,32N2,64N2 log_buf_len=4M" --kernel_offset 0x00000000 --ramdisk_offset 0x04f80000 --tags_offset 0x03f80000 --pagesize 2048 -o linux_boot.img)
+	@echo done
+
+clean: checkdir
+	(cd ..; rm -rf KERNEL_OUT)
+	(cd ..; rm -rf aarch64-linux-android-4.9)
+	(cd ..; rm -rf mkbootimg)
+
+# nothing to do
+
+# Below here is fairly generic really
+
+binary-arch:
+	-rm -rf debian/tmp
+	install -p -d -o root -g root -m 755 debian/tmp
+	install -p -d -o root -g root -m 755 debian/tmp/DEBIAN
+	install -p -d -o root -g root -m 755 debian/tmp/root
+	install -p    -o root -g root -m 644  ../linux_boot.img debian/tmp/root/linux_boot.img
+	install -p    -o root -g root -m 755 debian/postinst debian/tmp/DEBIAN/
+	dpkg-gencontrol -isp
+#	chown -R root.root debian/tmp
+#	chmod -R go=rX debian/tmp
+	dpkg --build debian/tmp ..
+
+binary:         binary-arch
+
+checkdir:
+	@test -f debian/rules
+
+checkroot: checkdir
+	@test 0 = `id -u` || { echo "Error: not super-user"; exit 1; }
+
+.PHONY: binary binary-arch clean checkroot checkdir build build-arch

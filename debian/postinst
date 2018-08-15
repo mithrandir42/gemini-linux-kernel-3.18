@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+action="$1"
+oldversion="$2"
+
+if [ "$action" != configure ]; then
+    exit 0
+fi
+
+@echo Kernel installed to /root you need to 'dd' it to the correct boot partition.
