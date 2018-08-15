@@ -1,0 +1,26 @@
+Source: gemini-linux-kernel-3.18
+Section: kernel
+Priority: extra
+Maintainer: Adam Boardman <adamboardman@gmail.com>
+Build-Depends:
+ python,
+ git,
+ ca-certificates,
+ bc,
+ curl,
+ mkbootimg,
+ gemini-linux-kernel-ramdisk
+Standards-Version: 3.9.8
+Vcs-Git: https://github.com/gemian/gemini-linux-kernel-3.18.git
+Homepage: https://www.kernel.org/
+
+Package: gemini-kernel-image-3.18
+Architecture: any
+Multi-Arch: same
+Depends:
+ ${misc:Depends}
+Conflicts:
+Replaces:
+Recommends:
+Description: Gemini Kernel
+ .
