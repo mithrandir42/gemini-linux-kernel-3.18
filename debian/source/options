@@ -1,4 +1,0 @@
-include-binaries
-tar-ignore=.git
-tar-ignore=.gitignore
-
