@@ -17,10 +17,6 @@ build-stamp:
 	(cd ..; make O=../KERNEL_OUT -C gemini-linux-kernel-3.18 ARCH=arm64 aeon6797_6m_n_halium_defconfig)
 	@echo building kernel
 	(cd ..; make O=../KERNEL_OUT -C gemini-linux-kernel-3.18 ARCH=arm64 CROSS_COMPILE=../aarch64-linux-android-4.9/bin/aarch64-linux-android-)
-	@echo mkbootimg
-	(cd ..; git clone https://github.com/osm0sis/mkbootimg.git)
-	@echo building mkbootimg
-	(cd ..; make -C mkbootimg)
 	@echo get ramdisk
 	(cd ..; curl -O https://gemian.thinkglobally.org/ramdisk.cpio.gz)
 	@echo mkbootimg
