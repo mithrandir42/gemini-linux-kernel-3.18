@@ -11,12 +11,10 @@ build-indep:
 
 build-stamp:
 	(cd ..; mkdir KERNEL_OUT)
-	@echo downloading gcc
-	(cd ..; git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b nougat-release --depth 1)
 	@echo configuring
 	(cd ..; make O=../KERNEL_OUT -C gemini-linux-kernel-3.18 ARCH=arm64 aeon6797_6m_n_halium_defconfig)
 	@echo building kernel
-	(cd ..; make O=../KERNEL_OUT -C gemini-linux-kernel-3.18 ARCH=arm64 CROSS_COMPILE=../aarch64-linux-android-4.9/bin/aarch64-linux-android-)
+	(cd ..; make O=../KERNEL_OUT -C gemini-linux-kernel-3.18 ARCH=arm64 CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-)
 	@echo get ramdisk
 	(cd ..; curl -O https://gemian.thinkglobally.org/ramdisk.cpio.gz)
 	@echo mkbootimg
@@ -25,8 +23,6 @@ build-stamp:
 
 clean: checkdir
 	(cd ..; rm -rf KERNEL_OUT)
-	(cd ..; rm -rf aarch64-linux-android-4.9)
-	(cd ..; rm -rf mkbootimg)
 
 binary-arch:
 	-rm -rf debian/tmp
