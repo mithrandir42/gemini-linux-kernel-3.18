@@ -9,7 +9,8 @@ Build-Depends:
  bc,
  curl,
  gcc-aarch64-linux-gnu,
- mkbootimg
+ mkbootimg,
+ gemini-linux-kernel-ramdisk
 Standards-Version: 3.9.8
 Vcs-Git: https://github.com/gemian/gemini-linux-kernel-3.18.git
 Homepage: https://www.kernel.org/
