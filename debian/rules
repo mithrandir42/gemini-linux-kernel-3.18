@@ -11,8 +11,6 @@ build-indep:
 
 build-stamp:
 	(cd ..; mkdir KERNEL_OUT)
-	@echo downloading gcc
-	(cd ..; git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b nougat-release --depth 1)
 	@echo configuring
 	make O=../KERNEL_OUT ARCH=arm64 aeon6797_6m_n_halium_defconfig
 	@echo building kernel
@@ -23,8 +21,6 @@ build-stamp:
 
 clean: checkdir
 	(cd ..; rm -rf KERNEL_OUT)
-	(cd ..; rm -rf aarch64-linux-android-4.9)
-	(cd ..; rm -rf mkbootimg)
 
 binary-arch:
 	-rm -rf debian/tmp
