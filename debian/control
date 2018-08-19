@@ -8,7 +8,6 @@ Build-Depends:
  ca-certificates,
  bc,
  curl,
- gcc-aarch64-linux-gnu,
  mkbootimg,
  gemini-linux-kernel-ramdisk
 Standards-Version: 3.9.8
