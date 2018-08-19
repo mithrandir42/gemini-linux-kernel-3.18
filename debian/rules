@@ -14,7 +14,7 @@ build-stamp:
 	@echo configuring
 	make O=../KERNEL_OUT ARCH=arm64 aeon6797_6m_n_halium_defconfig
 	@echo building kernel
-	make O=../KERNEL_OUT ARCH=arm64 CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
+	make O=../KERNEL_OUT ARCH=arm64
 	@echo mkbootimg
 	(cd ..; mkbootimg --kernel KERNEL_OUT/arch/arm64/boot/Image.gz-dtb --ramdisk /usr/share/kernel/ramdisk.cpio.gz --base 0x40080000 --second_offset 0x00e80000 --cmdline "bootopt=64S3,32N2,64N2 log_buf_len=4M" --kernel_offset 0x00000000 --ramdisk_offset 0x04f80000 --tags_offset 0x03f80000 --pagesize 2048 -o linux-boot.img)
 	@echo done
