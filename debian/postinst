@@ -7,4 +7,6 @@ if [ "$action" != configure ]; then
     exit 0
 fi
 
-@echo Kernel installed to /usr/share/kernel/linux-boot.img you need to 'dd' it to the correct boot partition, eg: sudo dd if=/usr/share/kernel/linux-boot.img of=/dev/disk/by-partlabel/boot3
+echo Kernel installed to /usr/share/kernel/linux-boot.img
+echo You need to write it to the correct boot partition based upon your boot configuration.
+echo eg: sudo dd if=/usr/share/kernel/linux-boot.img of=/dev/disk/by-partlabel/boot3
