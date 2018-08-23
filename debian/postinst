@@ -9,4 +9,5 @@ fi
 
 echo Kernel installed to /usr/share/kernel/linux-boot.img
 echo You need to write it to the correct boot partition based upon your boot configuration.
-echo eg: sudo dd if=/usr/share/kernel/linux-boot.img of=/dev/disk/by-partlabel/boot3
+echo eg: sudo dd if=/usr/share/kernel/linux-boot.img of=/dev/disk/by-partlabel/boot2
+echo or: sudo dd if=/usr/share/kernel/linux-boot-stowaways-debian.img of=/dev/disk/by-partlabel/boot3
