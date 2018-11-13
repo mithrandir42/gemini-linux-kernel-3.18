@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 action="$1"
 oldversion="$2"
@@ -7,7 +7,38 @@ if [ "$action" != configure ]; then
     exit 0
 fi
 
-echo Kernel installed to /usr/share/kernel/linux-boot.img
-echo You need to write it to the correct boot partition based upon your boot configuration.
-echo eg: sudo dd if=/usr/share/kernel/linux-boot.img of=/dev/disk/by-partlabel/boot2
-echo or: sudo dd if=/usr/share/kernel/linux-boot-stowaways-debian.img of=/dev/disk/by-partlabel/boot3
+stowaway=""
+boot=""
+cmdline=$(</proc/cmdline)
+
+echo Kernel images installed to /usr/share/kernel/
+
+if [[ "$cmdline" =~ ^(.*)bootpartition\=([a-z0-9]*)(.*)$ ]];
+then
+  boot="${BASH_REMATCH[2]}"
+fi
+
+if [[ "$cmdline" =~ ^(.*)stowaways_os\=([a-z0-9]*)(.*)$ ]];
+then
+  stowaway="${BASH_REMATCH[2]}"
+fi
+
+if [ -n "$boot" ]
+then
+  echo "You need to write the correct kernel to the correct boot partition based upon your boot configuration:"
+  if [ -n "$stowaway" ]
+  then
+    echo "sudo dd if=/usr/share/kernel/linux-boot-stowaways-debian.img of=/dev/disk/by-partlabel/${boot}"
+  else
+    echo "sudo dd if=/usr/share/kernel/linux-boot.img of=/dev/disk/by-partlabel/${boot}"
+  fi
+else
+  echo "You need to write the correct kernel to the correct boot partition based upon your boot configuration."
+  echo "eg: sudo dd if=/usr/share/kernel/linux-boot.img of=/dev/disk/by-partlabel/boot2"
+  if [ -n "$stowaway" ]
+  then
+    echo "or: sudo dd if=/usr/share/kernel/linux-boot-stowaways-${stowaway}.img of=/dev/disk/by-partlabel/boot3"
+  else
+    echo "or: sudo dd if=/usr/share/kernel/linux-boot-stowaways-debian.img of=/dev/disk/by-partlabel/boot3"
+  fi
+fi
