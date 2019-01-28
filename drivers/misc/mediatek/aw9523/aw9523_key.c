@@ -124,7 +124,7 @@ KEY_STATE key_map[]={
 	{"S"	,	KEY_S,				0,	KROW_P0_2,	KROW_P1_0},
 	{"Z"	,	KEY_Z,				0,	KROW_P0_3,	KROW_P1_0},
 	{","	,	KEY_COMMA,			0,	KROW_P0_4,	KROW_P1_0},
-	{"~"	,	KEY_APOSTROPHE,			0,	KROW_P0_5,	KROW_P1_0},
+	{"~"	,	KEY_APOSTROPHE,		0,	KROW_P0_5,	KROW_P1_0},
 	{"8"	,	KEY_8,				0,	KROW_P0_6,	KROW_P1_0},
 	{"J"	,	KEY_J,				0,	KROW_P0_7,	KROW_P1_0},
 
@@ -132,7 +132,7 @@ KEY_STATE key_map[]={
 	{"W"	,	KEY_W,				0,	KROW_P0_1,	KROW_P1_1},
 	{"D"	,	KEY_D,				0,	KROW_P0_2,	KROW_P1_1},
 	{"C"	,	KEY_C,				0,	KROW_P0_3,	KROW_P1_1},
-	{"ALT-L",	KEY_LEFTALT,			0,	KROW_P0_4,	KROW_P1_1},
+	{"ALT-L",	KEY_LEFTALT,		0,	KROW_P0_4,	KROW_P1_1},
 	{"LEFT"	,	KEY_LEFT,			0,	KROW_P0_5,	KROW_P1_1},
 	{"9"	,	KEY_9,				0,	KROW_P0_6,	KROW_P1_1},
 	{"K"	,	KEY_K,				0,	KROW_P0_7,	KROW_P1_1},
@@ -142,27 +142,27 @@ KEY_STATE key_map[]={
 	{"TAB"	,	KEY_TAB,			0,	KROW_P0_2,	KROW_P1_2},
 	{"N"	,	KEY_N,				0,	KROW_P0_3,	KROW_P1_2},
 	{"M"	,	KEY_M,				0,	KROW_P0_4,	KROW_P1_2},
-	{"PGDN"	,	KEY_DOWN/*KEY_PAGEDOWN*/,	0,	KROW_P0_5,	KROW_P1_2},
-	{"DEL"	,	KEY_BACKSPACE,			0,	KROW_P0_6,	KROW_P1_2},
+	{"PGDN"	,	KEY_DOWN,       	0,	KROW_P0_5,	KROW_P1_2},
+	{"DEL"	,	KEY_BACKSPACE,		0,	KROW_P0_6,	KROW_P1_2},
 	{"I"	,	KEY_I,				0,	KROW_P0_7,	KROW_P1_2},
 
 	{"4"	,	KEY_4,				0,	KROW_P0_0,	KROW_P1_3},
 	{"T"	,	KEY_T,				0,	KROW_P0_1,	KROW_P1_3},
 	{"F"	,	KEY_F,				0,	KROW_P0_2,	KROW_P1_3},
 	{"X"	,	KEY_X,				0,	KROW_P0_3,	KROW_P1_3},
-	{"META-L",	KEY_LEFTMETA,			0,	KROW_P0_4,	KROW_P1_3},
-	{"SHIFT-R",	KEY_RIGHTSHIFT,			0,	KROW_P0_5,	KROW_P1_3},
+	{"META-L",	KEY_LEFTMETA,		0,	KROW_P0_4,	KROW_P1_3},
+	{"SHIFT-R",	KEY_RIGHTSHIFT,		0,	KROW_P0_5,	KROW_P1_3},
 	{"P"	,	KEY_P,				0,	KROW_P0_6,	KROW_P1_3},
-	{"NULL"	,	KEY_UNKNOWN,			0,	KROW_P0_7,	KROW_P1_3},
+	{"NULL"	,	KEY_UNKNOWN,		0,	KROW_P0_7,	KROW_P1_3},
 
 	{"5"	,	KEY_5,				0,	KROW_P0_0,	KROW_P1_4},
 	{"E"	,	KEY_E,				0,	KROW_P0_1,	KROW_P1_4},
 	{"G"	,	KEY_G,				0,	KROW_P0_2,	KROW_P1_4},
 	{"V"	,	KEY_V,				0,	KROW_P0_3,	KROW_P1_4},
 	{"SPACE",	KEY_SPACE,			0,	KROW_P0_4,	KROW_P1_4},
-	{"PGUP"	,	KEY_UP/*KEY_PAGEUP*/,		0,	KROW_P0_5,	KROW_P1_4},
+	{"PGUP"	,	KEY_UP,     		0,	KROW_P0_5,	KROW_P1_4},
 	{"O"	,	KEY_O,				0,	KROW_P0_6,	KROW_P1_4},
-	{"NULL"	,	KEY_UNKNOWN,			0,	KROW_P0_7,	KROW_P1_4},
+	{"NULL"	,	KEY_UNKNOWN,		0,	KROW_P0_7,	KROW_P1_4},
 
 	{"6"	,	KEY_6,				0,	KROW_P0_0,	KROW_P1_5},
 	{"Q"	,	KEY_Q,				0,	KROW_P0_1,	KROW_P1_5},
@@ -171,16 +171,16 @@ KEY_STATE key_map[]={
 	{"?"	,	KEY_DOT,			0,	KROW_P0_4,	KROW_P1_5},
 	{"RIGHT",	KEY_RIGHT,			0,	KROW_P0_5,	KROW_P1_5},
 	{"ENTER",	KEY_ENTER,			0,	KROW_P0_6,	KROW_P1_5},
-	{"NULL"	,	KEY_UNKNOWN,			0,	KROW_P0_7,	KROW_P1_5},
+	{"NULL"	,	KEY_UNKNOWN,		0,	KROW_P0_7,	KROW_P1_5},
 
 	{"7"	,	KEY_7,				0,	KROW_P0_0,	KROW_P1_6},
 	{"R"	,	KEY_R,				0,	KROW_P0_1,	KROW_P1_6},
 	{"H"	,	KEY_H,				0,	KROW_P0_2,	KROW_P1_6},
-	{"SHIFT-L",	KEY_LEFTSHIFT,			0,	KROW_P0_3,	KROW_P1_6},
-	{"CTRL"	,	KEY_LEFTCTRL,			0,	KROW_P0_4,	KROW_P1_6},
+	{"SHIFT-L",	KEY_LEFTSHIFT,		0,	KROW_P0_3,	KROW_P1_6},
+	{"CTRL"	,	KEY_LEFTCTRL,		0,	KROW_P0_4,	KROW_P1_6},
 	{"L"	,	KEY_L,				0,	KROW_P0_5,	KROW_P1_6},
 	{"0"	,	KEY_0,				0,	KROW_P0_6,	KROW_P1_6},
-	{"NULL"	,	KEY_UNKNOWN,			0,	KROW_P0_7,	KROW_P1_6},
+	{"NULL"	,	KEY_UNKNOWN,		0,	KROW_P0_7,	KROW_P1_6},
 };
 
 #define P0_NUM_MAX	8
@@ -211,7 +211,6 @@ struct aw9523_key_data {
 	struct input_dev *input_dev;
 	struct work_struct eint_work;
 	struct device_node *irq_node;
-	struct hrtimer key_timer;
 	int irq;
 	struct delayed_work work;
 	int delay;
@@ -259,13 +258,8 @@ static int aw9523_hall_notifier_callback(struct notifier_block *self, unsigned l
 static void aw9523_i2c_early_suspend(struct i2c_client *client);
 static void aw9523_i2c_early_resume(struct i2c_client *client);
 #endif
-#define MAX_KEYS_TOGETHER 4
-int skipCycles = 0;
-int calledByHRTimer = 0;
-int forceCycles = 0;
 
-int discardKeys[100];
-int discardKeyIdx = 0;
+int calledByHRTimer = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GPIO Control
@@ -307,6 +301,23 @@ static void aw9523_hw_reset(void)
 	AW9523_LOG("%s out\n", __func__);
 }
 
+static void aw9523_reset_to_monitor_for_state_change(void) {
+    unsigned char val;
+
+    val = i2c_read_reg(P1_CONFIG);
+    i2c_write_reg(P1_CONFIG, val & (~P1_KCOL_MASK));	//set p1 port output mode
+
+    val = i2c_read_reg(P1_OUTPUT);
+    i2c_write_reg(P1_OUTPUT, val & (~P1_KCOL_MASK));	//p1 port output 0
+
+    val = i2c_read_reg(P0_INPUT);	//clear p0 input irq
+
+    val = i2c_read_reg(P0_INT);
+    i2c_write_reg(P0_INT, 0x00);	//enable p0 port irq
+
+    enable_irq(aw9523_key->irq);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Interrupt
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -326,9 +337,7 @@ static void aw9523_key_eint_work(struct work_struct *work)
 	int press_codes[P0_NUM_MAX*P1_NUM_MAX];
 	int release_count = 0;
 	int release_codes[P0_NUM_MAX*P1_NUM_MAX];
-	int discardKeyCheck;
 	bool setKeyValue;
-	bool forceAllKeyRelease;
 
 	AW9523_LOG("Handling Interrupt\n");
 
@@ -336,41 +345,16 @@ static void aw9523_key_eint_work(struct work_struct *work)
 	if (!aw9523_key->is_screen_on) {
 		AW9523_LOG("Screen is off\n");
 
-		val = i2c_read_reg(P1_CONFIG);
-		i2c_write_reg(P1_CONFIG, val & (~P1_KCOL_MASK));	//set p1 port output mode
-
-		val = i2c_read_reg(P1_OUTPUT);
-		i2c_write_reg(P1_OUTPUT, val & (~P1_KCOL_MASK));	//p1 port output 0
-
-		val = i2c_read_reg(P0_INPUT);	//clear p0 input irq
-
-		val = i2c_read_reg(P0_INT);
-		//i2c_write_reg(P0_INT, val & (~P0_KROW_MASK));         //enable p0 port irq
-		i2c_write_reg(P0_INT, 0x00);	//enable p0 port irq
-
-		AW9523_LOG("IRQ enable 4 - off branch\n");
-		enable_irq(aw9523_key->irq);
+		aw9523_reset_to_monitor_for_state_change();
 		return;
 	}
 #endif
 
 #ifdef CONFIG_AW9523_HALL
 	if (aw9523_key->is_device_closed) {
-		AW9523_LOG("Screen is off\n");
+		AW9523_LOG("Device is closed\n");
 
-		val = i2c_read_reg(P1_CONFIG);
-		i2c_write_reg(P1_CONFIG, val & (~P1_KCOL_MASK));	//set p1 port output mode
-
-		val = i2c_read_reg(P1_OUTPUT);
-		i2c_write_reg(P1_OUTPUT, val & (~P1_KCOL_MASK));	//p1 port output 0
-
-		val = i2c_read_reg(P0_INPUT);	//clear p0 input irq
-
-		val = i2c_read_reg(P0_INT);
-		i2c_write_reg(P0_INT, 0x00);	//enable p0 port irq
-
-		AW9523_LOG("IRQ enable 4 - off branch\n");
-		enable_irq(aw9523_key->irq);
+        aw9523_reset_to_monitor_for_state_change();
 		return;
 	}
 #endif
@@ -471,138 +455,29 @@ static void aw9523_key_eint_work(struct work_struct *work)
 		/* Process key presses before releases because sometimes a release of one key will
 		 * unblock another key press, and we want to keep all modifier keys pressed. */
 		for (t = 0; t < press_count; t++) {
-			if (skipCycles == 0) {
-				if (discardKeyIdx > 0) {
-					AW9523_LOG("Clearing discarded keys\n");
-					discardKeyIdx = 0;
-				}
-				AW9523_LOG("Processing key press in position %d code %d\n",
-					   t, press_codes[t]);
-				input_report_key(aw9523_key->input_dev,
-						 press_codes[t],
-						 1); // The one records a press
-				input_sync(aw9523_key->input_dev);
-				forceCycles = 100;
-			} else {
-				if (discardKeyIdx < 99) {
-					AW9523_LOG("Putting key press %d in discardKeys %d\n",
-						   press_codes[t],
-						   discardKeyIdx);
-					discardKeys[discardKeyIdx] = press_codes[t];
-					discardKeyIdx++;
-				}
-			}
+			AW9523_LOG("Processing key press in position %d code %d\n",
+					t, press_codes[t]);
+			input_report_key(aw9523_key->input_dev,
+					press_codes[t],
+					1); // The one records a press
+			input_sync(aw9523_key->input_dev);
 		}
 		// Now go through all the releases.
 		for (t = 0; t < release_count; t++) {
-			if (skipCycles == 0) {
-				if (discardKeyIdx > 0) {
-					AW9523_LOG("Clearing discarded keys\n");
-					discardKeyIdx = 0;
-				}
-				AW9523_LOG("Processing key release in position %d code %d\n",
-					   t, release_codes[t]);
-				input_report_key(aw9523_key->input_dev,
-						 release_codes[t],
-						 0); // The zero records a release
-				input_sync(aw9523_key->input_dev);
-				forceCycles = 100;
-			} else {
-				// Key is released
-				for (discardKeyCheck = 0; discardKeyCheck < discardKeyIdx; discardKeyCheck++) {
-					if (discardKeys[discardKeyCheck] == release_codes[t]) {
-						AW9523_LOG("Found key %d in discardKeys %d, discarding\n",
-							   release_codes[t],
-							   discardKeyCheck);
-						discardKeyCheck = 999;
-					}
-				}
-				if (discardKeyCheck != 1000) {
-					AW9523_LOG("Releasing key in position %d code %d (%d)\n",
-						   t, release_codes[t],
-						   discardKeyCheck);
-					input_report_key(aw9523_key->input_dev,
-							release_codes[t],
-							0); // The zero records a release
-					input_sync(aw9523_key->input_dev);
-				}
-			}
+			AW9523_LOG("Processing key release in position %d code %d\n",
+					t, release_codes[t]);
+			input_report_key(aw9523_key->input_dev,
+					release_codes[t],
+					0); // The zero records a release
+            input_sync(aw9523_key->input_dev);
 		}
 
 		// Store the current state so we can detect a change next time.
 		memcpy(keyst_old, keyst_new, P1_NUM_MAX);
 	}
 
-	if (skipCycles == 0 && forceCycles > 0) {
-		AW9523_LOG("Force Scheduling matrix rescan %d\n",
-			   forceCycles);
-		calledByHRTimer = 1;
-		hrtimer_start(&pdata->key_timer,
-			      ktime_set(0, (1000 / HRTIMER_FRAME) * 1000000),
-			      HRTIMER_MODE_REL);
-		forceCycles--;
-		return;
-	}
-
-	if (skipCycles > 0) {
-		AW9523_LOG("Skipping cycle %d\n", skipCycles);
-		skipCycles--;
-	}
-
-	forceAllKeyRelease = false;
-#ifdef CONFIG_AW9523_FB
-	forceAllKeyRelease = !aw9523_key->is_screen_on;
-#endif
-#ifdef CONFIG_AW9523_HALL
-	forceAllKeyRelease = aw9523_key->is_device_closed;
-#endif
-
-	if (((!(memcmp(&keyst_new[0], &keyst_def[KEYST_NEW][0], P1_NUM_MAX))) && (skipCycles == 0)) || forceAllKeyRelease) {	// all key release
-		//keyIn = 0;
-		//keyCurrentCycle = 0;
-		if (!forceAllKeyRelease) {
-			AW9523_LOG("Clearing discarded keys\n");
-			discardKeyIdx = 0;
-		}
-
-
-		if (calledByHRTimer == 0)
-			AW9523_LOG("****** Bad, I lost a key here!\n");
-
-		val = i2c_read_reg(P1_CONFIG);
-		i2c_write_reg(P1_CONFIG, val & (~P1_KCOL_MASK));	//set p1 port output mode
-
-		val = i2c_read_reg(P1_OUTPUT);
-		i2c_write_reg(P1_OUTPUT, val & (~P1_KCOL_MASK));	//p1 port output 0
-
-		val = i2c_read_reg(P0_INPUT);	//clear p0 input irq
-
-		val = i2c_read_reg(P0_INT);
-		//i2c_write_reg(P0_INT, val & (~P0_KROW_MASK));         //enable p0 port irq
-		i2c_write_reg(P0_INT, 0x00);	//enable p0 port irq
-
-		AW9523_LOG("IRQ Re-enable 5\n");
-		enable_irq(aw9523_key->irq);
-		AW9523_LOG("Done\n");
-		return;
-	}
-
-	AW9523_LOG("Scheduling matrix rescan\n");
-	calledByHRTimer = 1;
-	hrtimer_start(&pdata->key_timer,
-		      ktime_set(0, (1000 / HRTIMER_FRAME) * 1000000),
-		      HRTIMER_MODE_REL);
-
-    AW9523_LOG("%s: end \n", __func__);
-}
-
-static enum hrtimer_restart aw9523_key_timer_func(struct hrtimer *timer)
-{
-	AW9523_LOG("HRTimer\n");
-
-	schedule_work(&aw9523_key->eint_work);
-
-	return HRTIMER_NORESTART;
+    aw9523_reset_to_monitor_for_state_change();
+	AW9523_LOG("Done\n");
 }
 
 /*********************************************************
@@ -625,32 +500,19 @@ static void aw9523_int_work(struct work_struct *work)
 	if (hall_fcover_lid_closed) {
 		AW9523_LOG("Lid closed - interrupt ignored\n");
 
-		val = i2c_read_reg(P1_CONFIG);
-		i2c_write_reg(P1_CONFIG, val & (~P1_KCOL_MASK));	//set p1 port output mode
-
-		val = i2c_read_reg(P1_OUTPUT);
-		i2c_write_reg(P1_OUTPUT, val & (~P1_KCOL_MASK));	//p1 port output 0
-
-		val = i2c_read_reg(P0_INPUT);	//clear p0 input irq
-
-		val = i2c_read_reg(P0_INT);
-		i2c_write_reg(P0_INT, 0x00);	//enable p0 port irq
-
-		AW9523_LOG("IRQ enable 6 - closed\n");
-		enable_irq(aw9523_key->irq);
+		aw9523_reset_to_monitor_for_state_change();
 		return;
 	}
 #endif
 
-	hrtimer_start(&aw9523_key->key_timer,
-		      ktime_set(0, (1000 / (HRTIMER_FRAME * 10)) * 1000000),
-		      HRTIMER_MODE_REL);
+    schedule_work(&aw9523_key->eint_work);
+
 }
 
 static irqreturn_t aw9523_key_eint_func(int irq, void *desc)
 {
+    AW9523_LOG("IRQ disable I nosync\n");
 	disable_irq_nosync(aw9523_key->irq);
-	AW9523_LOG("IRQ disable I\n");
 	AW9523_LOG("Interrupt Enter\n");
 	calledByHRTimer = 0;
 
@@ -658,7 +520,6 @@ static irqreturn_t aw9523_key_eint_func(int irq, void *desc)
 		AW9523_LOG("aw9523_key == NULL");
 		return IRQ_NONE;
 	}
-//      schedule_work(&aw9523_key->eint_work);
 	schedule_delayed_work(&aw9523_key->work, msecs_to_jiffies(1));
 
 	return IRQ_HANDLED;
@@ -879,9 +740,9 @@ static void aw9523_input_register(void)
 	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_LEFTCTRL);
 	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_APOSTROPHE);
 	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_LEFT);
-	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_DOWN/*KEY_PAGEDOWN*/);
+	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_DOWN);
 	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_RIGHTSHIFT);
-	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_UP/*KEY_PAGEUP*/);
+	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_UP);
 	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_RIGHT);
 	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_L);
 	input_set_capability(aw9523_key->input_dev, EV_KEY, KEY_COMMA);
@@ -1033,9 +894,6 @@ static int aw9523_i2c_probe(struct i2c_client *client,
 	//Interrupt
 	aw9523_key_setup_eint();
 	INIT_WORK(&aw9523_key->eint_work, aw9523_key_eint_work);
-	hrtimer_init(&aw9523_key->key_timer, CLOCK_MONOTONIC,
-		     HRTIMER_MODE_REL);
-	aw9523_key->key_timer.function = aw9523_key_timer_func;
 
 	aw9523_create_sysfs(client);
 
@@ -1060,7 +918,7 @@ static void aw9523_i2c_early_suspend(struct i2c_client *client)
 {
 	struct aw9523_key_data *aw9523_key = i2c_get_clientdata(client);
 
-	AW9523_LOG("IRQ disable 1\n");
+	AW9523_LOG("IRQ disable es 1 nosync\n");
 	disable_irq_nosync(aw9523_key->irq);
 
 	pinctrl_select_state(aw9523_pin, shdn_low);
@@ -1076,17 +934,12 @@ static void aw9523_i2c_early_resume(struct i2c_client *client)
 	struct aw9523_key_data *aw9523_key = i2c_get_clientdata(client);
 
 	AW9523_LOG("%s enter\n", __func__);
-	AW9523_LOG("IRQ Re-enable 1\n");
-	enable_irq(aw9523_key->irq);
 
 	aw9523_hw_reset();
 	aw9523_init_keycfg();
-	//INIT_DELAYED_WORK(&aw9523_key->work, aw9523_int_work);
-	//INIT_WORK(&aw9523_key->eint_work, aw9523_key_eint_work);
-	AW9523_LOG("Scheduling matrix rescan2\n");
-	hrtimer_start(&aw9523_key->key_timer,
-		      ktime_set(0, (1000 / HRTIMER_FRAME) * 1000000),
-		      HRTIMER_MODE_REL);
+
+	AW9523_LOG("Scheduling matrix scan\n");
+    schedule_work(&aw9523_key->eint_work);
 	return;
 }
 #endif
@@ -1097,7 +950,7 @@ static int aw9523_i2c_suspend(struct i2c_client *client, pm_message_t msg)
 #ifndef AW9523_EARLY_SUSPEND
 	struct aw9523_key_data *aw9523_key = i2c_get_clientdata(client);
 
-	AW9523_LOG("IRQ disable S\n");
+	AW9523_LOG("IRQ disable S nosync\n");
 	disable_irq_nosync(aw9523_key->irq);
 	//aw9523_key->is_screen_on = false;
 
@@ -1120,7 +973,7 @@ static int aw9523_i2c_resume(struct i2c_client *client)
 	struct aw9523_key_data *aw9523_key = i2c_get_clientdata(client);
 
 	AW9523_LOG("%s enter\n", __func__);
-	AW9523_LOG("IRQ Re-enable 2\n");
+	AW9523_LOG("IRQ Re-enable 2 resume\n");
 	enable_irq(aw9523_key->irq);
 	//aw9523_key->is_screen_on = true;
 
@@ -1228,7 +1081,7 @@ static int aw9523_key_suspend(struct platform_device *pdev,
 			      pm_message_t state)
 {
 	AW9523_LOG("%s enter!\n", __func__);
-	AW9523_LOG("IRQ disable 3\n");
+	AW9523_LOG("IRQ disable 3 nosync\n");
 	disable_irq_nosync(aw9523_key->irq);
 
 	pinctrl_select_state(aw9523_pin, shdn_low);
@@ -1244,7 +1097,7 @@ static int aw9523_key_suspend(struct platform_device *pdev,
 static int aw9523_key_resume(struct platform_device *pdev)
 {
 	AW9523_LOG("%s enter!\n", __func__);
-	AW9523_LOG("IRQ Re-enable 3\n");
+	AW9523_LOG("IRQ Re-enable 3 resume\n");
 	enable_irq(aw9523_key->irq);
 
 	aw9523_hw_reset();
