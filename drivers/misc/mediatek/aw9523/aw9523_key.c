@@ -39,14 +39,21 @@
 #include <linux/miscdevice.h>
 #include <linux/workqueue.h>
 
+/**
+ * General principals of this driver:
+ * 1. Wait for any keypress with an interrupt, all 8 keyboard scan lines are monitored
+ * 2. Check each keyboard scan line independently to determine combination of keys depressed
+ * 3. Whilst keypresses are detected perform matrix scans to detect further key presses/releases
+ * 4. When no keys are pressed return to interrupt based monitoring
+ */
+
 //#define CONFIG_AW9523_FB
 #define CONFIG_AW9523_HALL
 #define AW9523_EARLY_SUSPEND
 /**
  * AW9523_EARLY_SUSPEND added by wangyongsheng 20171227
- * Notes:
  * Keys can be pressed whilst the screen is closed, early suspend provides a way disable the keyboard whilst the device
- * is closed, this can be triggered via FB or HALL callback.
+ * is closed, this can be triggered via frame buffer (FB) or device open/closed state (HALL) callback.
 */
 
 #ifdef CONFIG_AW9523_FB
@@ -117,7 +124,8 @@
 #define P1_7_DIM0    0x2F //DIM15
 #define SW_RSTN      0x7F //Soft reset
 
-#define HRTIMER_FRAME    100//20
+#define MATRIX_SCAN_NANO_SECONDS_SLOW 10000000
+#define MATRIX_SCAN_NANO_SECONDS_FAST 1000000
 
 KEY_STATE key_map[] = {
 //	name		code				val	row		col
@@ -215,6 +223,7 @@ struct aw9523_key_data {
     struct input_dev *input_dev;
     struct work_struct eint_work;
     struct device_node *irq_node;
+    struct hrtimer key_timer;
     int irq;
     struct delayed_work work;
     int delay;
@@ -267,8 +276,6 @@ static void aw9523_i2c_early_suspend(struct i2c_client *client);
 static void aw9523_i2c_early_resume(struct i2c_client *client);
 
 #endif
-
-int calledByHRTimer = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GPIO Control
@@ -325,11 +332,15 @@ static void aw9523_reset_to_monitor_for_state_change(void) {
     enable_irq(aw9523_key->irq);
 }
 
+static void aw9523_schedule_matrix_rescan(bool fast) {
+    int nanoSeconds = fast ? MATRIX_SCAN_NANO_SECONDS_FAST : MATRIX_SCAN_NANO_SECONDS_SLOW;
+    hrtimer_start(&aw9523_key->key_timer, ktime_set(0, nanoSeconds), HRTIMER_MODE_REL);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Interrupt
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static void aw9523_key_eint_work(struct work_struct *work) {
-    struct aw9523_key_data *pdata;
     KEY_STATE *keymap;
     unsigned char i, j, idx;
     unsigned char val;
@@ -344,6 +355,7 @@ static void aw9523_key_eint_work(struct work_struct *work) {
     int release_count = 0;
     int release_codes[P0_NUM_MAX * P1_NUM_MAX];
     bool setKeyValue;
+    bool forceAllKeyRelease;
 
     AW9523_LOG("Handling Interrupt\n");
 
@@ -365,10 +377,8 @@ static void aw9523_key_eint_work(struct work_struct *work) {
     }
 #endif
 
-    pdata = aw9523_key;
-
-    keymap = pdata->keymap;
-    keymap_len = pdata->keymap_len;
+    keymap = aw9523_key->keymap;
+    keymap_len = aw9523_key->keymap_len;
 
     for (i = 0; i < P1_NUM_MAX; i++) {
         if (P1_KCOL_MASK & (1 << i)) {
@@ -393,8 +403,6 @@ static void aw9523_key_eint_work(struct work_struct *work) {
         }
     }
     // AW9523_LOG("\n");
-
-    aw9523_reset_to_monitor_for_state_change();
 
 
     /* This routine prevents ghosting.  As an example, if Control+L_Shift+N is pressed,
@@ -482,7 +490,32 @@ static void aw9523_key_eint_work(struct work_struct *work) {
         // Store the current state so we can detect a change next time.
         memcpy(keyst_old, keyst_new, P1_NUM_MAX);
     }
-    AW9523_LOG("Done\n");
+
+    forceAllKeyRelease = false;
+#ifdef CONFIG_AW9523_FB
+    forceAllKeyRelease = !aw9523_key->is_screen_on;
+#endif
+#ifdef CONFIG_AW9523_HALL
+    forceAllKeyRelease = aw9523_key->is_device_closed;
+#endif
+
+    if (((!(memcmp(&keyst_new[0], &keyst_def[KEYST_NEW][0], P1_NUM_MAX)))) || forceAllKeyRelease) {
+        AW9523_LOG("No keys pressed return to interrupt monitoring\n");
+        aw9523_reset_to_monitor_for_state_change();
+    } else {
+        AW9523_LOG("Scheduling matrix rescan - keys held down\n");
+        aw9523_schedule_matrix_rescan(false);
+    }
+    AW9523_LOG("%s: end \n", __func__);
+}
+
+static enum hrtimer_restart aw9523_key_timer_func(struct hrtimer *timer)
+{
+	AW9523_LOG("HRTimer\n");
+
+	schedule_work(&aw9523_key->eint_work);
+
+	return HRTIMER_NORESTART;
 }
 
 /*********************************************************
@@ -509,15 +542,13 @@ static void aw9523_int_work(struct work_struct *work) {
     }
 #endif
 
-    schedule_work(&aw9523_key->eint_work);
-
+    aw9523_schedule_matrix_rescan(true);
 }
 
 static irqreturn_t aw9523_key_eint_func(int irq, void *desc) {
     AW9523_LOG("IRQ disable I nosync\n");
     disable_irq_nosync(aw9523_key->irq);
     AW9523_LOG("Interrupt Enter\n");
-    calledByHRTimer = 0;
 
     if (aw9523_key == NULL) {
         AW9523_LOG("aw9523_key == NULL");
@@ -801,8 +832,7 @@ static int aw9523_fb_notifier_callback(struct notifier_block *self,
 #ifdef CONFIG_AW9523_HALL
 
 static int aw9523_hall_notifier_callback(struct notifier_block *self, unsigned long event, void *data) {
-    struct aw9523_key_data *aw9523 = container_of(self,
-    struct aw9523_key_data, hall_notif);
+    struct aw9523_key_data *aw9523 = container_of(self, struct aw9523_key_data, hall_notif);
     // Must indicate device is closed before suspending, and resume before setting device opened.
     // This is to avoid reporting random keys during suspend/resume
     if (event == HALL_FCOVER_CLOSE) {
@@ -890,6 +920,8 @@ static int aw9523_i2c_probe(struct i2c_client *client,
     //Interrupt
     aw9523_key_setup_eint();
     INIT_WORK(&aw9523_key->eint_work, aw9523_key_eint_work);
+    hrtimer_init(&aw9523_key->key_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+    aw9523_key->key_timer.function = aw9523_key_timer_func;
 
     aw9523_create_sysfs(client);
 
@@ -926,15 +958,13 @@ static void aw9523_i2c_early_suspend(struct i2c_client *client) {
 
 /*----------------------------------------------------------------------------*/
 static void aw9523_i2c_early_resume(struct i2c_client *client) {
-    struct aw9523_key_data *aw9523_key = i2c_get_clientdata(client);
-
     AW9523_LOG("%s enter\n", __func__);
 
     aw9523_hw_reset();
     aw9523_init_keycfg();
 
-    AW9523_LOG("Scheduling matrix scan\n");
-    schedule_work(&aw9523_key->eint_work);
+    AW9523_LOG("Scheduling matrix rescan - resume check\n");
+    aw9523_schedule_matrix_rescan(false);
     return;
 }
 
@@ -1006,8 +1036,8 @@ static int aw9523_i2c_remove(struct i2c_client *client) {
 }
 
 static const struct i2c_device_id aw9523_i2c_id[] = {
-        {AW9523_I2C_NAME, 0},
-        {}
+    {AW9523_I2C_NAME, 0},
+    {}
 };
 
 #ifdef CONFIG_OF
@@ -1018,21 +1048,21 @@ static const struct of_device_id extgpio_of_match[] = {
 #endif
 
 static struct i2c_driver aw9523_i2c_driver = {
-        .driver = {
-                .name = AW9523_I2C_NAME,
-                .owner = THIS_MODULE,
+    .driver = {
+        .name = AW9523_I2C_NAME,
+        .owner = THIS_MODULE,
 #ifdef CONFIG_OF
-                .of_match_table = extgpio_of_match,
+        .of_match_table = extgpio_of_match,
 #endif
-        },
+    },
 
-        .probe = aw9523_i2c_probe,
-        .remove = aw9523_i2c_remove,
+    .probe = aw9523_i2c_probe,
+    .remove = aw9523_i2c_remove,
 #ifdef AW9523_I2C_SUSPEND
-        .suspend = aw9523_i2c_suspend,
-        .resume = aw9523_i2c_resume,
+    .suspend = aw9523_i2c_suspend,
+    .resume = aw9523_i2c_resume,
 #endif
-        .id_table = aw9523_i2c_id,
+    .id_table = aw9523_i2c_id,
 };
 
 
@@ -1111,18 +1141,18 @@ static const struct of_device_id aw9523plt_of_match[] = {
 #endif
 
 static struct platform_driver aw9523_key_driver = {
-        .probe = aw9523_key_probe,
-        .remove = aw9523_key_remove,
+    .probe = aw9523_key_probe,
+    .remove = aw9523_key_remove,
 #ifdef AW9523_PLATFORM_SUSPEND
-.suspend = aw9523_key_suspend,
-.resume = aw9523_key_resume,
+    .suspend = aw9523_key_suspend,
+    .resume = aw9523_key_resume,
 #endif
-        .driver = {
-                .name = "aw9523_key",
+    .driver = {
+        .name = "aw9523_key",
 #ifdef CONFIG_OF
-                .of_match_table = aw9523plt_of_match,
+        .of_match_table = aw9523plt_of_match,
 #endif
-        }
+    }
 };
 
 static int __init aw9523_key_init(void) {
