@@ -394,6 +394,8 @@ static void aw9523_key_eint_work(struct work_struct *work) {
     }
     // AW9523_LOG("\n");
 
+    aw9523_reset_to_monitor_for_state_change();
+
 
     /* This routine prevents ghosting.  As an example, if Control+L_Shift+N is pressed,
      * the keyboard detects both N & M at the same time due to the electronic circuit.
@@ -466,7 +468,6 @@ static void aw9523_key_eint_work(struct work_struct *work) {
             input_report_key(aw9523_key->input_dev,
                              press_codes[t],
                              1); // The one records a press
-            input_sync(aw9523_key->input_dev);
         }
         // Now go through all the releases.
         for (t = 0; t < release_count; t++) {
@@ -475,14 +476,12 @@ static void aw9523_key_eint_work(struct work_struct *work) {
             input_report_key(aw9523_key->input_dev,
                              release_codes[t],
                              0); // The zero records a release
-            input_sync(aw9523_key->input_dev);
         }
+        input_sync(aw9523_key->input_dev);
 
         // Store the current state so we can detect a change next time.
         memcpy(keyst_old, keyst_new, P1_NUM_MAX);
     }
-
-    aw9523_reset_to_monitor_for_state_change();
     AW9523_LOG("Done\n");
 }
 
