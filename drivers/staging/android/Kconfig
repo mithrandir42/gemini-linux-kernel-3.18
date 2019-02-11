@@ -111,6 +111,23 @@ config MTK_GMO_RAM_OPTIMIZE
 	help
 	  Provide for phone to use memory efficiently.
 
+config ANBOX
+	bool "Anbox Drivers"
+	default N
+	---help---
+	  Enable support for various drivers needed for Anbox
+
+if ANBOX
+
+config ANBOX_BINDER_IPC
+	bool "Anbox Binder IPC Driver"
+	default n
+
+config ANBOX_BINDER_IPC_32BIT
+	bool "32bit Anbox binder"
+	default n
+
+endif # if ANBOX
 
 source "drivers/staging/android/ion/Kconfig"
 
