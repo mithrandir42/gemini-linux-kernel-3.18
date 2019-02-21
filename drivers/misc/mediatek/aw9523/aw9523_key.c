@@ -193,8 +193,8 @@ KEY_STATE key_map[] = {
         {"NULL",    KEY_UNKNOWN,    0, KROW_P0_7, KROW_P1_6},
 };
 
-#define P0_NUM_MAX    8
-#define P1_NUM_MAX    7
+#define P0_NUM_MAX   8
+#define P1_NUM_MAX   7
 #define KEYST_MAX    2
 #define KEYST_OLD    0
 #define KEYST_NEW    1
