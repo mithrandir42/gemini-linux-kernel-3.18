@@ -125,6 +125,8 @@ void fusb300_eint_work(struct work_struct *data)
 			
 			aeon_gpio_set("usb1_drvvbus_high");//GPIO94 high: usb1 drvvbus to high
 			
+			msleep(5); //leave a little time before trying to check for interrupt, improves reliability of HDMI detection
+
 			if (aeon_gpio_get("sil9022_hpd_int")){
 				printk("===hdmi plug in===\n");
 				if(CCXstate == 0x10){
