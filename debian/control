@@ -8,7 +8,7 @@ Build-Depends:
  ca-certificates,
  bc,
  curl,
- mkbootimg,
+ mkbootimg|abootimg,
  gemini-linux-kernel-ramdisk
 Standards-Version: 3.9.8
 Vcs-Git: https://github.com/gemian/gemini-linux-kernel-3.18.git
