@@ -11,8 +11,6 @@ stowaway=""
 boot=""
 cmdline=$(</proc/cmdline)
 
-echo Kernel images installed to /usr/share/kernel/
-
 if [[ "$cmdline" =~ ^(.*)bootpartition\=([a-z0-9]*)(.*)$ ]];
 then
   boot="${BASH_REMATCH[2]}"
@@ -25,10 +23,29 @@ fi
 
 if [ -n "$boot" ]
 then
+  if [ -n "$stowaway" ]
+  then
+    mkbootimg --kernel /usr/share/kernel/Image.gz-dtb --ramdisk /usr/share/kernel/initrd.img-gemini.cpio.gz --base 0x40080000 --second_offset 0x00e80000 --cmdline "bootopt=64S3,32N2,64N2 log_buf_len=4M stowaways_os=${stowaway}" --kernel_offset 0x00000000 --ramdisk_offset 0x04f80000 --tags_offset 0x03f80000 --pagesize 2048 -o linux-boot-stowaways-${stowaway}.img
+  else
+    mkbootimg --kernel /usr/share/kernel/Image.gz-dtb --ramdisk /usr/share/kernel/initrd.img-gemini.cpio.gz --base 0x40080000 --second_offset 0x00e80000 --cmdline "bootopt=64S3,32N2,64N2 log_buf_len=4M" --kernel_offset 0x00000000 --ramdisk_offset 0x04f80000 --tags_offset 0x03f80000 --pagesize 2048 -o linux-boot.img
+  fi
+else
+  mkbootimg --kernel /usr/share/kernel/Image.gz-dtb --ramdisk /usr/share/kernel/initrd.img-gemini.cpio.gz --base 0x40080000 --second_offset 0x00e80000 --cmdline "bootopt=64S3,32N2,64N2 log_buf_len=4M" --kernel_offset 0x00000000 --ramdisk_offset 0x04f80000 --tags_offset 0x03f80000 --pagesize 2048 -o linux-boot.img
+  if [ -n "$stowaway" ]
+  then
+    mkbootimg --kernel /usr/share/kernel/Image.gz-dtb --ramdisk /usr/share/kernel/initrd.img-gemini.cpio.gz --base 0x40080000 --second_offset 0x00e80000 --cmdline "bootopt=64S3,32N2,64N2 log_buf_len=4M stowaways_os=${stowaway}" --kernel_offset 0x00000000 --ramdisk_offset 0x04f80000 --tags_offset 0x03f80000 --pagesize 2048 -o linux-boot-stowaways-${stowaway}.img
+  else
+    mkbootimg --kernel /usr/share/kernel/Image.gz-dtb --ramdisk /usr/share/kernel/initrd.img-gemini.cpio.gz --base 0x40080000 --second_offset 0x00e80000 --cmdline "bootopt=64S3,32N2,64N2 log_buf_len=4M stowaways_os=debian" --kernel_offset 0x00000000 --ramdisk_offset 0x04f80000 --tags_offset 0x03f80000 --pagesize 2048 -o linux-boot-stowaways-debian.img
+  fi
+fi
+
+echo Kernel images installed to /usr/share/kernel/
+if [ -n "$boot" ]
+then
   echo "You need to write the correct kernel to the correct boot partition based upon your boot configuration:"
   if [ -n "$stowaway" ]
   then
-    echo "sudo dd if=/usr/share/kernel/linux-boot-stowaways-debian.img of=/dev/disk/by-partlabel/${boot}"
+    echo "sudo dd if=/usr/share/kernel/linux-boot-stowaways-${stowaway}.img of=/dev/disk/by-partlabel/${boot}"
   else
     echo "sudo dd if=/usr/share/kernel/linux-boot.img of=/dev/disk/by-partlabel/${boot}"
   fi
