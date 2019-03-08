@@ -10,7 +10,7 @@ build-arch: build-stamp
 build-indep:
 
 build-stamp:
-	(cd ..; mkdir KERNEL_OUT)
+	(cd ..; mkdir -p KERNEL_OUT)
 	@echo configuring
 	make O=../KERNEL_OUT ARCH=arm64 aeon6797_6m_n_halium_defconfig
 	@echo building kernel
@@ -33,6 +33,7 @@ binary-arch:
 	install -p    -o root -g root -m 644  ../linux-boot.img debian/tmp/usr/share/kernel/linux-boot.img
 	install -p    -o root -g root -m 644  ../linux-boot-stowaways-debian.img debian/tmp/usr/share/kernel/linux-boot-stowaways-debian.img
 	install -p    -o root -g root -m 755 debian/postinst debian/tmp/DEBIAN/
+	make O=../KERNEL_OUT INSTALL_MOD_PATH=$(CURDIR)/debian/tmp ARCH=arm64 modules_install
 	dpkg-gencontrol -DArchitecture=arm64
 	dpkg --build debian/tmp ..
 
