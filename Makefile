@@ -398,7 +398,11 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
+<<<<<<< HEAD
 KBUILD_CFLAGS   := -w -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+=======
+KBUILD_CFLAGS   := -Wno-error=implicit-function-declaration -Wno-error=maybe-uninitialized -Wno-error=switch-bool -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+>>>>>>> 23bafb2799c9e101674e740bce7367cfc6fdd001
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
