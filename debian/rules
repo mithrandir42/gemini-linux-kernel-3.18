@@ -12,7 +12,7 @@ build-indep:
 build-stamp:
 	(cd ..; mkdir -p KERNEL_OUT)
 	@echo configuring
-	make O=../KERNEL_OUT ARCH=arm64 aeon6797_6m_n_halium_defconfig
+	make O=../KERNEL_OUT ARCH=arm64 gemini_modular_defconfig
 	@echo building kernel
 	make O=../KERNEL_OUT ARCH=arm64 
 	@echo building modules
